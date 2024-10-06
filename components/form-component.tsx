@@ -40,6 +40,9 @@ const formSchema = z.object({
 });
 
 export function BusinessForm() {
+  // State to track the current page of the form
+  const [currentPage, setCurrentPage] = useState(1);
+
   // File upload state
   const [files, setFiles] = useState<FileList | null>(null);
 
@@ -65,199 +68,209 @@ export function BusinessForm() {
     console.log(values);
   }
 
+  // Define the next and previous page handlers
+  const nextPage = () => setCurrentPage(currentPage + 1);
+  const prevPage = () => setCurrentPage(currentPage - 1);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* Field for Venue Name */}
-        <FormField
-          control={form.control}
-          name="venueName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Venue Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Venue Name" {...field} />
-              </FormControl>
-              <FormDescription>
-                The name of your business venue.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* First Page */}
+        {currentPage === 1 && (
+          <>
+            {/* Field for Venue Name */}
+            <FormField
+              control={form.control}
+              name="venueName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Venue Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter Venue Name" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    The name of your business venue.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        {/* Field for Address */}
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Venue Address</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Address" {...field} />
-              </FormControl>
-              <FormDescription>
-                The address of your business venue.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Field for Address */}
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Venue Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter Address" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    The address of your business venue.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        {/* Field for contact name*/}
-        <FormField
-          control={form.control}
-          name="contactName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contact Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter name (optional)" {...field} />
-              </FormControl>
-              <FormDescription>
-                The contact name of your business venue.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Field for contact name */}
+            <FormField
+              control={form.control}
+              name="contactName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contact Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter name (optional)" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    The contact name of your business venue.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        {/* Field for position */}
-        <FormField
-          control={form.control}
-          name="position"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Position</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Position (optional)" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Field for position */}
+            <FormField
+              control={form.control}
+              name="position"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Position</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter Position (optional)" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        {/* Field for Email */}
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Email" {...field} />
-              </FormControl>
-              <FormDescription>
-                This email must match your venue's contact email for
-                confirmation
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Field for Email */}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter Email" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This email must match your venue's contact email for
+                    confirmation
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        {/* Field for phone number*/}
-        <FormField
-          control={form.control}
-          name="phoneNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone Number</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter phone number" {...field} />
-              </FormControl>
-              <FormDescription>
-                The phone number of your business venue.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Field for phone number */}
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter phone number" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    The phone number of your business venue.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        {/* Field for step free entrance*/}
-        <FormField
-          control={form.control}
-          name="stepFreeOption"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Q1. Are there step-free entrance options available at your
-                venue?
-              </FormLabel>
-              <FormDescription>
-                This includes entrances that are flat or have a ramp that meets
-                accessibility standards. A compliant ramp should have a maximum
-                slope of 1:12 and be at least 90cm wide.
-              </FormDescription>
-              <FormControl>
-                <div className="space-y-2">
-                  <div>
-                    <input
-                      type="radio"
-                      id="yes"
-                      value="Yes"
-                      checked={field.value === "Yes"}
-                      onChange={() => field.onChange("Yes")}
-                    />
-                    <label htmlFor="yes">Yes</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      id="no"
-                      value="No"
-                      checked={field.value === "No"}
-                      onChange={() => field.onChange("No")}
-                    />
-                    <label htmlFor="no">No</label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      id="other"
-                      value="Other"
-                      checked={field.value === "Other"}
-                      onChange={() => field.onChange("Other")}
-                    />
-                    <label htmlFor="other">Other:</label>
-                    {field.value === "Other" && (
-                      <Input
-                        placeholder="Please specify"
-                        {...form.register("otherDetails")} // Register the "otherDetails" field
-                        className="ml-2 mt-2"
-                      />
-                    )}
-                  </div>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Next Button */}
+            <Button type="button" onClick={nextPage}>
+              Next
+            </Button>
+          </>
+        )}
 
-        {/* Field for if no to step free entrance*/}
-        <FormField
-          control={form.control}
-          name="ifNoStepFreeEntry"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Q1a. If "No", please describe the accessibility features or
-                barriers at your venue entrance:
-              </FormLabel>
-              <FormControl>
-                <Input placeholder="Enter dedscription" {...field} />
-              </FormControl>
-              <FormDescription>
-                Provide details such as the number of steps, presence of a
-                portable ramp, assistance options, or alternate accessible
-                entrances. For example, "There are three steps at the main
-                entrance, but we have a portable ramp available upon request,"
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* Second Page */}
+        {currentPage === 2 && (
+          <>
+            {/* Field for step-free entrance */}
+            <FormField
+              control={form.control}
+              name="stepFreeOption"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Q1. Are there step-free entrance options available at your
+                    venue?
+                  </FormLabel>
+                  <FormDescription>
+                    This includes entrances that are flat or have a ramp that
+                    meets accessibility standards.
+                  </FormDescription>
+                  <FormControl>
+                    <div className="space-y-2">
+                      <div>
+                        <input
+                          type="radio"
+                          id="yes"
+                          value="Yes"
+                          checked={field.value === "Yes"}
+                          onChange={() => field.onChange("Yes")}
+                        />
+                        <label htmlFor="yes">Yes</label>
+                      </div>
+                      <div>
+                        <input
+                          type="radio"
+                          id="no"
+                          value="No"
+                          checked={field.value === "No"}
+                          onChange={() => field.onChange("No")}
+                        />
+                        <label htmlFor="no">No</label>
+                      </div>
+                      <div>
+                        <input
+                          type="radio"
+                          id="other"
+                          value="Other"
+                          checked={field.value === "Other"}
+                          onChange={() => field.onChange("Other")}
+                        />
+                        <label htmlFor="other">Other:</label>
+                        {field.value === "Other" && (
+                          <Input
+                            placeholder="Please specify"
+                            {...form.register("otherDetails")} // Register the "otherDetails" field
+                            className="ml-2 mt-2"
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Field for if no to step-free entrance */}
+            <FormField
+              control={form.control}
+              name="ifNoStepFreeEntry"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Q1a. If "No", please describe the accessibility features or
+                    barriers at your venue entrance:
+                  </FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
         {/* Field for pedestrian pathways*/}
         <FormField
@@ -404,8 +417,15 @@ export function BusinessForm() {
           </div>
         </div>
 
-        {/* Submit Button */}
-        <Button type="submit">Submit</Button>
+            {/* Previous Button */}
+            <Button type="button" onClick={prevPage}>
+              Previous
+            </Button>
+
+            {/* Submit Button */}
+            <Button type="submit">Submit</Button>
+          </>
+        )}
       </form>
     </Form>
   );

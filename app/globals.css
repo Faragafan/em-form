@@ -56,6 +56,14 @@
     --chart-5: 340 75% 55%
   }
 }
+
+@layer components {
+  .question-container {
+    @apply bg-background border border-slate-200 rounded-lg p-4 mb-4; /* Adjust the color as needed */
+  }
+}
+
+
 @layer base {
   * {
     @apply border-border;
