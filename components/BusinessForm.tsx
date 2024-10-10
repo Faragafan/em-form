@@ -6,6 +6,7 @@ import { z } from "zod";
 import React, { useState } from "react";
 import BusinessFormUI from "@/components/BusinessFormUI";
 import { Button } from "./ui/button";
+import { useRouter } from 'next/navigation';
 
 // Define the form schema
 const FormSchema = z.object({
@@ -24,6 +25,7 @@ const FormSchema = z.object({
 type FormSchemaType = z.infer<typeof FormSchema>;
 
 export default function BusinessForm() {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const methods = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
@@ -33,27 +35,26 @@ export default function BusinessForm() {
 
   const onSubmit = (data: FormSchemaType) => {
     console.log("Form submitted:", data);
+    router.push('/congrats');
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     if (fileList) {
-      // Convert FileList to an array
       const filesArray = Array.from(fileList);
-      // Update your state here with filesArray
-      // Example: setFiles(filesArray);
+      setValue("files", filesArray); // Store the files in form state
     }
   };
 
-  const selectedFiles = methods.watch("files") || null; // Make sure to use FileList or null
+  const selectedFiles = methods.watch("files") || null; // Watch file input
 
   const { FirstPage, SecondPage, NextButton, PrevButton } = BusinessFormUI;
 
   const handleNextPage = async () => {
-    // Validate the first page fields
-    const isValid = await trigger(["venueName", "address", "phoneNumber"]);
+    // Validate all fields on the first page according to the schema
+    const isValid = await trigger(["venueName", "address", "phoneNumber", 'email']);
     if (isValid) {
-      setCurrentPage((prev) => prev + 1); // Proceed to the next page
+      setCurrentPage((prev) => prev + 1); // Proceed to the next page if validation passes
     }
   };
 
@@ -61,7 +62,7 @@ export default function BusinessForm() {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         {currentPage === 1 && <FirstPage />}
-        {currentPage === 2 && errors.venueName === undefined && errors.address === undefined && errors.phoneNumber === undefined && (
+        {currentPage === 2 && (
           <SecondPage
             handleFileChange={handleFileChange}
             files={selectedFiles}
@@ -72,7 +73,7 @@ export default function BusinessForm() {
         <div className="flex justify-between">
           {currentPage > 1 && <PrevButton onClick={() => setCurrentPage((prev) => prev - 1)} />}
           {currentPage < 2 && (
-            <NextButton onClick={handleNextPage} /> // Use the custom next page handler
+            <NextButton onClick={handleNextPage} /> // Use the updated next page handler
           )}
           {currentPage === 2 && <Button type="submit">Submit</Button>}
         </div>
@@ -80,7 +81,3 @@ export default function BusinessForm() {
     </FormProvider>
   );
 }
-
-
-
-

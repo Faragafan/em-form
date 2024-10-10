@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 // Define the form schema using Zod for validation.
 const formSchema = z.object({
@@ -40,6 +41,7 @@ const formSchema = z.object({
 });
 
 export function BusinessForm() {
+  const router = useRouter();
   // State to track the current page of the form
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -66,6 +68,7 @@ export function BusinessForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     console.log(values);
+    router.push('congrats');
   }
 
   // Define the next and previous page handlers
